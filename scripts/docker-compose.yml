@@ -1,0 +1,20 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: postgres.dockerfile
+    image: "postgres-glycos"
+    container_name: postgres_glycos
+    environment:
+      POSTGRES_DB: glycos
+      POSTGRES_USER: glycos
+      POSTGRES_PASSWORD: glycos_password
+      PGDATA: /data/postgres-glycos
+    volumes:
+       - glycos:/data/postgres-glycos
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+volumes:
+    glycos:
+      external: true
