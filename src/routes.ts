@@ -2,8 +2,11 @@ import { Router, Request, Response } from "express";
 
 import { User } from "./User/Model";
 import { AppDataSource } from "./data-config";
+import MeasureService from "./Measure/Service";
 
 const router = Router();
+
+const { createMeasure, getMeasuresByUserId } = MeasureService();
 AppDataSource?.initialize()
   .then(() => {
     console.log("Data Source has been initialized");
@@ -25,6 +28,16 @@ router.get("/users/:id", async (req: Request, res: Response) => {
   const results = await AppDataSource.manager.getRepository(User).findOneBy({
     id: Number(req.params.id),
   });
+  return res.send(results);
+});
+
+router.post("/measure/create", async (req: Request, res: Response) => {
+  const results = await createMeasure(req.body);
+  return res.send(results);
+});
+
+router.get("/measure/:id", async (req: Request, res: Response) => {
+  const results = await getMeasuresByUserId(Number(req.params.id));
   return res.send(results);
 });
 

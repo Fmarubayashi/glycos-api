@@ -3,42 +3,37 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Measure } from "../Measure/Model";
+import { User } from "../User/Model";
 
 @Entity()
-export class User {
+export class Measure {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  firstName: string;
+  value: number;
 
   @Column()
-  lastName: string;
+  fasting: boolean;
 
   @Column()
-  email: string;
+  exercise: boolean;
 
   @Column()
-  CPF: string;
+  stress: boolean;
 
   @Column()
-  password: string;
+  medication: boolean;
 
   @Column()
-  role: number;
+  date: Date;
 
-  @Column({ nullable: true })
-  gender?: number;
-
-  @Column()
-  birthday: string;
-
-  @OneToMany(() => Measure, (measure) => measure.user)
-  measures: Measure[];
+  @ManyToOne(() => User, (user) => user.measures)
+  user: User;
 
   @CreateDateColumn({
     type: "timestamp",
