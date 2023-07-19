@@ -3,10 +3,12 @@ import { Router, Request, Response } from "express";
 import { User } from "./User/Model";
 import { AppDataSource } from "./data-config";
 import MeasureService from "./Measure/Service";
+import ObservationService from "./Observation/Service";
 
 const router = Router();
 
 const { createMeasure, getMeasuresByUserId } = MeasureService();
+const { createObservation, getObservationsByUserId } = ObservationService();
 AppDataSource?.initialize()
   .then(() => {
     console.log("Data Source has been initialized");
@@ -38,6 +40,16 @@ router.post("/measure/create", async (req: Request, res: Response) => {
 
 router.get("/measure/:id", async (req: Request, res: Response) => {
   const results = await getMeasuresByUserId(Number(req.params.id));
+  return res.send(results);
+});
+
+router.get("/observation/:id", async (req: Request, res: Response) => {
+  const results = await getObservationsByUserId(Number(req.params.id));
+  return res.send(results);
+});
+
+router.post("/observation/create", async (req: Request, res: Response) => {
+  const results = await createObservation(req.body);
   return res.send(results);
 });
 

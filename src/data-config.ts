@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { User } from "./User/Model";
 import { Measure } from "./Measure/Model";
+import { Observation } from "./Observation/Model";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -9,7 +10,7 @@ export const AppDataSource = new DataSource({
   username: "postgres",
   password: "postgres",
   database: "glycos",
-  entities: [User, Measure],
+  entities: [User, Measure, Observation],
   synchronize: true,
   logging: false,
 });

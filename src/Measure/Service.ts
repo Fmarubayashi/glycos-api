@@ -10,7 +10,7 @@ const MeasureService = () => {
 
   async function getMeasuresByUserId(id: number) {
     const measures = await AppDataSource.manager.getRepository(Measure).findBy({
-      user: { id: 2 },
+      user: { id },
     });
     return measures;
   }

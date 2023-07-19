@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Measure } from "../Measure/Model";
+import { Observation } from "../Observation/Model";
 
 @Entity()
 export class User {
@@ -39,6 +40,12 @@ export class User {
 
   @OneToMany(() => Measure, (measure) => measure.user)
   measures: Measure[];
+
+  @OneToMany(() => Observation, (observation) => observation.doctor)
+  doctorObservations: Observation[];
+
+  @OneToMany(() => Observation, (observation) => observation.patient)
+  userObservations: Observation[];
 
   @CreateDateColumn({
     type: "timestamp",
