@@ -8,6 +8,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { User } from "../User/Model";
+import { GlucoseCategory } from "../FuzzyLogic/Types";
+import { TrendType } from "./Types";
 
 @Entity()
 export class Measure {
@@ -31,6 +33,9 @@ export class Measure {
 
   @Column()
   date: Date;
+
+  @Column({ nullable: true })
+  trend: string;
 
   @ManyToOne(() => User, (user) => user.measures)
   user: User;
