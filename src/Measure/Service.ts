@@ -1,8 +1,7 @@
+import { execSync } from "child_process";
 import { PythonShell } from "python-shell";
-import { GlucoseCategory } from "../FuzzyLogic/Types";
 import { AppDataSource } from "../data-config";
 import { Measure } from "./Model";
-import { execSync } from "child_process";
 import { FuzzyDataObject, TrendType } from "./Types";
 
 // Install Python libraries using pip
@@ -47,9 +46,10 @@ const MeasureService = () => {
         const startIdx = results[1].indexOf("'") + 1;
         const endIdx = results[1].lastIndexOf("'");
         const trend = results[1].slice(startIdx, endIdx);
+        const trendType = getTrendType(trend);
         const measure = AppDataSource.getRepository(Measure).create({
           ...data,
-          trend,
+          trend: trendType,
         });
         const resultData = await AppDataSource.getRepository(Measure).save(
           measure
@@ -58,6 +58,19 @@ const MeasureService = () => {
       });
     } catch (err) {
       return err;
+    }
+  }
+
+  function getTrendType(trend: string) {
+    switch (trend) {
+      case "increase":
+        return TrendType.Increase;
+      case "stabilize":
+        return TrendType.Stabilize;
+      case "decrease":
+        return TrendType.Descrease;
+      case undefined:
+        throw Error;
     }
   }
 

@@ -7,7 +7,7 @@ export interface FuzzyDataObject {
 }
 
 export enum TrendType {
-  Increase = "increase",
-  Stabilize = "stabilize",
-  Descrease = "decrease",
+  Descrease = 1,
+  Stabilize = 2,
+  Increase = 3,
 }

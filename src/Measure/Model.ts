@@ -35,7 +35,7 @@ export class Measure {
   date: Date;
 
   @Column({ nullable: true })
-  trend: string;
+  trend: TrendType;
 
   @ManyToOne(() => User, (user) => user.measures)
   user: User;
