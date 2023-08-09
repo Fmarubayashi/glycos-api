@@ -4,7 +4,6 @@ import { AppDataSource } from "../data-config";
 import { Measure } from "./Model";
 import { FuzzyDataObject, TrendType } from "./Types";
 
-// Install Python libraries using pip
 try {
   execSync("pip3 install numpy scikit-fuzzy");
 } catch (err) {
@@ -54,7 +53,11 @@ const MeasureService = () => {
         const resultData = await AppDataSource.getRepository(Measure).save(
           measure
         );
-        return resultData;
+        if (resultData) {
+          return resultData;
+        } else {
+          throw { error: "error" };
+        }
       });
     } catch (err) {
       return err;
@@ -77,7 +80,6 @@ const MeasureService = () => {
   async function getMeasuresByUserId(id: number) {
     const measures = await AppDataSource.manager.getRepository(Measure).find({
       where: { user: { id } },
-      take: 30,
     });
     return measures;
   }
