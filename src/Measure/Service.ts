@@ -12,7 +12,7 @@ try {
 
 const MeasureService = () => {
   async function createMeasure(data: any) {
-    const measures = await getMeasuresByUserId(2);
+    const measures = await getMeasuresByUserId(2, 7);
     measures.push(data);
     const sortedMeasures = [...measures].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -77,9 +77,11 @@ const MeasureService = () => {
     }
   }
 
-  async function getMeasuresByUserId(id: number) {
+  async function getMeasuresByUserId(id: number, limit?: number) {
     const measures = await AppDataSource.manager.getRepository(Measure).find({
       where: { user: { id } },
+      ...(limit && { take: limit }),
+      order: { date: "desc" },
     });
     return measures;
   }
